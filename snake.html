@@ -94,6 +94,74 @@
   }
   .meta b { color: var(--text); font-variant-numeric: tabular-nums; }
 
+  /* ---------- 最近战绩 ---------- */
+  .history { margin-bottom: 14px; }
+
+  .history-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+  .history-toggle:hover { border-color: var(--accent); }
+  .history-toggle .count { color: var(--muted); font-weight: 400; }
+  .history-toggle .arrow {
+    margin-left: auto;
+    color: var(--muted);
+    transition: transform .2s;
+  }
+  .history-toggle[aria-expanded="true"] .arrow { transform: rotate(180deg); }
+
+  .history-body {
+    margin-top: 8px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--card);
+  }
+
+  .history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  .history-table th,
+  .history-table td {
+    padding: 6px 8px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+    font-variant-numeric: tabular-nums;
+  }
+  .history-table th {
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 11.5px;
+  }
+  .history-table tr:last-child td { border-bottom: none; }
+  .history-table .win   { color: #15803d; font-weight: 600; }
+  .history-table .lose  { color: #b91c1c; }
+  .history-table .abort { color: var(--muted); }
+  .history-table .empty { color: var(--muted); padding: 14px 8px; }
+
+  .history-note {
+    margin: 0;
+    padding: 6px 8px;
+    font-size: 11.5px;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+
   /* ---------- 进度条 ---------- */
   .progress-wrap { margin-bottom: 14px; }
   .progress-top {
@@ -260,6 +328,26 @@
     <span>累计吃到 <b id="food">0</b> 个</span>
   </div>
 
+  <!-- 最近战绩（默认收起，点标题展开） -->
+  <div class="history">
+    <button class="history-toggle" id="btn-history" aria-expanded="false" aria-controls="history-body">
+      📋 最近战绩
+      <span class="count">（<span id="history-count">0</span> 局）</span>
+      <span class="arrow">▾</span>
+    </button>
+    <div class="history-body" id="history-body" hidden>
+      <table class="history-table">
+        <thead>
+          <tr><th>局</th><th>得分</th><th>结果</th><th>蛇长</th><th>用时</th></tr>
+        </thead>
+        <tbody id="history-list">
+          <tr class="empty"><td colspan="5">还没有记录，玩一局试试</td></tr>
+        </tbody>
+      </table>
+      <p class="history-note">只保留最近 10 局</p>
+    </div>
+  </div>
+
   <!-- 本局进度 -->
   <div class="progress-wrap">
     <div class="progress-top">
@@ -323,6 +411,7 @@
   const MIN_SPEED = 82;         // 最快每步毫秒
   const HUNGRY_LIMIT = 80;      // AI 连续这么多步没吃到，就转为激进模式
   const STATS_KEY = 'snake-stats-v1';
+  const HISTORY_MAX = 10;       // 战绩列表最多保留多少局
 
   /* ================= 元素 ================= */
   const canvas = document.getElementById('game');
@@ -343,14 +432,20 @@
   const elBtnReset = document.getElementById('btn-reset');
   const elBtnClear = document.getElementById('btn-reset-stats');
 
+  const elBtnHistory  = document.getElementById('btn-history');
+  const elHistoryBody = document.getElementById('history-body');
+  const elHistoryList = document.getElementById('history-list');
+  const elHistoryCnt  = document.getElementById('history-count');
+
   /* ================= 状态 ================= */
   let snake, dir, nextDir, food, score, state, speed, auto;
   let acc = 0, last = 0, cell = 20;
   let sinceFood = 0;            // AI 距上次吃到食物走了多少步
   let roundActive = false;      // 本局是否已开始且尚未计入统计
+  let roundStart = 0;           // 本局开始时间戳（算用时）
   let COLORS = {};
 
-  let stats = { rounds: 0, best: 0, total: 0, food: 0 };
+  let stats = { rounds: 0, best: 0, total: 0, food: 0, history: [] };
 
   /* ================= 工具 ================= */
   const key = (x, y) => x + ',' + y;
@@ -387,11 +482,13 @@
           rounds: Number(o.rounds) || 0,
           best:   Number(o.best)   || 0,
           total:  Number(o.total)  || 0,
-          food:   Number(o.food)   || 0
+          food:   Number(o.food)   || 0,
+          history: Array.isArray(o.history) ? o.history.slice(0, HISTORY_MAX) : []
         };
       }
     } catch (e) { /* 解析失败就用默认值 */ }
     renderStats();
+    renderHistory();
   }
 
   function saveStats() {
@@ -405,16 +502,74 @@
     elFood.textContent   = stats.food;
   }
 
+  /* ---------- 最近战绩 ---------- */
+
+  // 把一局的成绩塞到列表最前面；超过 10 条就丢掉最旧的
+  function pushHistory(sc, len, result, secs) {
+    stats.history.unshift({
+      no:     stats.rounds,
+      score:  sc,
+      len:    len,
+      result: result,          // 'win' | 'lose' | 'abort'
+      secs:   secs
+    });
+    if (stats.history.length > HISTORY_MAX) {
+      stats.history.length = HISTORY_MAX;
+    }
+  }
+
+  const RESULT_TEXT = { win: '通关 ✓', lose: '结束', abort: '中途重开' };
+
+  function fmtSecs(s) {
+    if (!isFinite(s) || s < 0) return '—';
+    if (s < 60) return s + ' 秒';
+    return Math.floor(s / 60) + ' 分 ' + (s % 60) + ' 秒';
+  }
+
+  function renderHistory() {
+    const list = stats.history || [];
+    elHistoryCnt.textContent = list.length;
+
+    if (!list.length) {
+      elHistoryList.innerHTML =
+        '<tr class="empty"><td colspan="5">还没有记录，玩一局试试</td></tr>';
+      return;
+    }
+
+    elHistoryList.innerHTML = list.map(function (h) {
+      const cls  = (h.result === 'win') ? 'win' : (h.result === 'lose' ? 'lose' : 'abort');
+      const text = RESULT_TEXT[h.result] || '—';
+      return '<tr>' +
+               '<td>' + (h.no || '—') + '</td>' +
+               '<td><b>' + (h.score || 0) + '</b></td>' +
+               '<td class="' + cls + '">' + text + '</td>' +
+               '<td>' + (h.len || 0) + '</td>' +
+               '<td>' + fmtSecs(h.secs) + '</td>' +
+             '</tr>';
+    }).join('');
+  }
+
   // 结算当前这一局（一场只结算一次）
-  function endRound() {
+  // result: 'win' 通关 | 'lose' 失败 | 'abort' 中途重开
+  function endRound(result) {
     if (!roundActive) return;
     roundActive = false;
+
+    // 中途重开且一分没得，就不算一局（免得刷出一堆 0 分记录）
+    if (result === 'abort' && score === 0) return;
+
+    const secs = roundStart ? Math.round((Date.now() - roundStart) / 1000) : 0;
+
     stats.rounds += 1;
     stats.total  += score;
     stats.food   += Math.round(score / PER_FOOD);
     if (score > stats.best) stats.best = score;
+
+    pushHistory(score, snake ? snake.length : 0, result || 'lose', secs);
+
     saveStats();
     renderStats();
+    renderHistory();
   }
 
   /* ================= 尺寸自适应 ================= */
@@ -431,7 +586,7 @@
 
   /* ================= 初始化一局 ================= */
   function reset() {
-    endRound();                       // 先把上一局结算掉（如果还没结算）
+    endRound('abort');                // 先把上一局结算掉（如果还没结算）
 
     snake   = [{x: 5, y: 10}, {x: 4, y: 10}, {x: 3, y: 10}];
     dir     = {x: 1, y: 0};
@@ -500,7 +655,7 @@
 
   function lose(reason) {
     state = 'over';
-    endRound();
+    endRound('lose');
     showOverlay('游戏结束',
       reason +
       '<br><span class="big">' + score + ' 分</span>' +
@@ -512,7 +667,7 @@
 
   function win(perfect) {
     state = 'win';
-    endRound();
+    endRound('win');
     showOverlay('🎉 通关！',
       (perfect ? '你把整个棋盘填满了，完美通关！' : '你达成了 ' + GOAL + ' 分的目标！') +
       '<br><span class="big">' + score + ' 分</span>' +
@@ -726,6 +881,7 @@
     if (state === 'over' || state === 'win') reset();
     state = 'running';
     roundActive = true;
+    roundStart = Date.now();       // 记下本局开始时间，用于统计用时
     last = 0; acc = 0;
     hideOverlay();
     syncButtons();
@@ -771,9 +927,18 @@
       '清空后无法恢复。'
     );
     if (!okToClear) return;
-    stats = { rounds: 0, best: 0, total: 0, food: 0 };
+    stats = { rounds: 0, best: 0, total: 0, food: 0, history: [] };
     saveStats();
     renderStats();
+    renderHistory();
+  });
+
+  // 展开 / 收起战绩列表
+  elBtnHistory.addEventListener('click', function () {
+    const open = elBtnHistory.getAttribute('aria-expanded') === 'true';
+    elBtnHistory.setAttribute('aria-expanded', open ? 'false' : 'true');
+    if (open) elHistoryBody.setAttribute('hidden', '');
+    else      elHistoryBody.removeAttribute('hidden');
   });
 
   document.addEventListener('keydown', function (e) {
