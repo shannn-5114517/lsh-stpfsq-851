@@ -192,6 +192,7 @@ img { max-width: 100%; height: auto; display: block; }
   width: 120px;
   height: 120px;
   border-radius: 50%;
+  object-fit: cover;
   margin: 0 auto 1.5rem;
   box-shadow: 0 0 0 1px var(--border), var(--shadow-md);
 }
@@ -416,6 +417,7 @@ img { max-width: 100%; height: auto; display: block; }
 
       <nav class="nav" aria-label="主导航">
         <a href="#about">关于</a>
+        <a href="#works">作品</a>
         <a href="#interests">兴趣</a>
         <a href="#contact">联系</a>
       </nav>
@@ -431,7 +433,7 @@ img { max-width: 100%; height: auto; display: block; }
 
     <!-- ========== 首屏 ========== -->
     <section class="hero container" id="top">
-      <img class="avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLliJjor5fmtrXnmoTlpLTlg4/ljaDkvY3lm74iPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzRmOGNmZiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM4YjVjZjYiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiByeD0iNjAiIGZpbGw9InVybCgjZykiLz4KICA8dGV4dCB4PSI2MCIgeT0iNjIiIGZpbGw9IiNmZmZmZmYiIGZvbnQtc2l6ZT0iNTIiIGZvbnQtd2VpZ2h0PSI2MDAiCiAgICAgICAgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9ImNlbnRyYWwiCiAgICAgICAgZm9udC1mYW1pbHk9InN5c3RlbS11aSwgLWFwcGxlLXN5c3RlbSwgJ1NlZ29lIFVJJywgc2Fucy1zZXJpZiI+5YiYPC90ZXh0Pgo8L3N2Zz4K" alt="刘诗涵的头像" width="120" height="120" />
+      <img class="avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSLliJjor5fmtrXnmoTlpLTlg48iPgogIDxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiByeD0iNjAiIGZpbGw9IiNGQUY4RjMiLz4KICA8Y2lyY2xlIGN4PSI2MCIgY3k9IjYwIiByPSI1Ny41IiBmaWxsPSJub25lIiBzdHJva2U9IiMxQTFBMUEiIHN0cm9rZS13aWR0aD0iMi41Ii8+CiAgPHRleHQgeD0iNjAiIHk9IjYzIiBmaWxsPSIjMUExQTFBIiBmb250LXNpemU9IjU2IiBmb250LXdlaWdodD0iNTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgZm9udC1mYW1pbHk9IidTb25ndGkgU0MnLCdTaW1TdW4nLCdOb3RvIFNlcmlmIFNDJyxzZXJpZiI+5YiYPC90ZXh0Pgo8L3N2Zz4=" alt="刘诗涵的头像" width="120" height="120" />
       <p class="eyebrow">你好，我是</p>
       <h1>刘诗涵</h1>
       <p class="tagline">集成电路设计与集成系统</p>
@@ -491,6 +493,24 @@ img { max-width: 100%; height: auto; display: block; }
             最喜欢的出汗方式。输赢其实无所谓，
             能在场上跑起来、把一个眼看要落地的球救回来，就够开心了。
           </p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ========== 作品 ========== -->
+    <section class="container section reveal" id="works">
+      <h2>我的小作品</h2>
+      <div class="card-grid">
+
+        <article class="card">
+          <p class="card-icon" aria-hidden="true">🐍</p>
+          <h3>贪吃蛇</h3>
+          <p>
+            用原生 HTML + Canvas 手写的贪吃蛇，单文件、零依赖，双击就能打开玩。
+            除了键盘操作，还可以点「AI 自动玩」，看它自己一路吃到通关。
+          </p>
+          <a class="card-link" href="snake.html">打开来玩 →</a>
         </article>
 
       </div>
