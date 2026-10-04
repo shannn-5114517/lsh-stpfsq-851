@@ -50,7 +50,7 @@ def exp1_rc():
     print(f"  {'R (kΩ)':>8} {'τ = RC (μs)':>14} {'fc = 1/(2πRC) (Hz)':>21} {'仿真 fc (Hz)':>14} {'误差':>8}")
     print("  " + "-" * 72)
 
-    C_FAR = 100e-9
+    C_FAR = 1000e-9
     R_LIST = [0.1,0.5, 1, 5, 10, 50]
 
     rows = []
@@ -64,9 +64,10 @@ def exp1_rc():
         c = Circuit(f'RC R={r_k}k')
         c.SinusoidalVoltageSource('in', 'vin', c.gnd, amplitude=1 @ u_V)
         c.R('1', 'vin', 'vo', r_k @ u_kOhm)
-        c.C('1', 'vo', c.gnd, 100 @ u_nF)
+        c.C('1', 'vo', c.gnd, C_FAR @ u_F)      # 用变量，别写死
         sim = c.simulator(temperature=25, nominal_temperature=25)
-        ac = sim.ac(start_frequency=10 @ u_Hz, stop_frequency=1 @ u_MHz,
+        # 扫频范围 1 Hz ~ 10 MHz（比原来的 10 Hz~1 MHz 更宽，避免 fc 掉出范围）
+        ac = sim.ac(start_frequency=1 @ u_Hz, stop_frequency=10 @ u_MHz,
                     number_of_points=60, variation='dec')
         freq = np.array(ac.frequency)
         vo = np.asarray(ac['vo'])
@@ -77,9 +78,16 @@ def exp1_rc():
         fc_sim = float(freq[idx])
         err = abs(fc_sim - fc_theory) / fc_theory * 100
 
+        # 范围检查：如果真 fc 落在扫频范围之外，测出来的一定不准
+        warn = ''
+        if fc_theory < float(freq[0]) or fc_theory > float(freq[-1]):
+            warn = '  ⚠️ fc 超出扫频范围！'
+        elif idx == 0 or idx == len(freq) - 1:
+            warn = '  ⚠️ −3dB 点落在边界上，结果不可信'
+
         rows.append((r_k, tau * 1e6, fc_theory, fc_sim, err))
         curves.append((r_k, freq, gain_db, np.degrees(np.angle(vo))))
-        print(f"  {r_k:>8.1f} {tau*1e6:>14.1f} {fc_theory:>21.1f} {fc_sim:>14.1f} {err:>7.2f}%")
+        print(f"  {r_k:>8.1f} {tau*1e6:>14.1f} {fc_theory:>21.1f} {fc_sim:>14.1f} {err:>7.2f}%{warn}")
 
     # 画图
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9.5, 7.5), sharex=True)
