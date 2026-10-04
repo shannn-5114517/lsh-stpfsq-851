@@ -214,9 +214,9 @@ def exp3_nmos():
     print("        V_th = 1 V，λ = 0.02 /V        变量：R_d")
     print()
 
-    VDD = 5.0
+    VDD = 3.0
     RG1, RG2 = 60.0, 40.0
-    K, VTH, LAM = 1.6e-3, 1.0, 0.02
+    K, VTH, LAM = 0.8e-3, 1.0, 0.02
     VG = VDD * RG2 / (RG1 + RG2)      # = 2 V
     VOV = VG - VTH                     # = 1 V
 
