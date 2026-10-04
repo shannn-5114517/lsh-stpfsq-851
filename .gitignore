@@ -1,22 +1,26 @@
-# 本地预览产物，不需要发布到 GitHub Pages
+# ══════════ 本地预览产物 ══════════
 preview*.png
 .preview-profile/
 
-# PySpice 作业（本地作业目录，不属于主页）
-pyspice-homework/
-
-# 本地草稿，不需要上传
+# ══════════ 本地草稿 / 工具 ══════════
 avatar-options.html
 操作指南.md
-
-# ── 本地临时文件 / 废弃文件（不参与提交）──
-.mplcache/
-上传图片/
-上传清单.txt
-assets/
-pyspice-homework/
-preview*.png
-avatar-options.html
-操作指南.md
-images/
 推送.bat
+上传清单.txt
+上传图片/
+
+# ══════════ 本地工作副本 ══════════
+# 作业文件已整理到仓库根目录，这个子目录只是本地备份
+pyspice-homework/
+
+# 旧版多文件主页结构，已废弃（现在是单文件 index.html）
+assets/
+
+# ══════════ 脚本输出目录 ══════════
+# 只忽略根目录的 images/；子目录（如 experiments/images/）要正常提交
+/images/
+
+# ══════════ Python / matplotlib 缓存 ══════════
+__pycache__/
+*.pyc
+.mplcache/
