@@ -138,7 +138,7 @@ def exp2_thevenin():
     print("  " + "-" * 74)
 
     V1, R1 = 20.0, 1.5
-    R2_LIST = [1, 2, 3, 5, 10, 20]
+    R2_LIST = [0.1,1,10,100,1000]
 
     vths, rths, r2s = [], [], []
     for r2 in R2_LIST:
@@ -169,10 +169,11 @@ def exp2_thevenin():
                      xytext=(0, 9), ha='center', fontsize=9)
     ax1.axhline(V1, color='gray', ls='--', lw=1.2)
     ax1.text(1.2, V1 - 1.2, f'上限 = V1 = {V1:g} V（R2→∞ 时）', fontsize=9, color='gray')
-    ax1.set_xlabel('R2 (kΩ)', fontsize=11)
+    ax1.set_xscale('log')                       # 横轴跨度大，用对数轴才看得清
+    ax1.set_xlabel('R2 (kΩ) —— 对数轴', fontsize=11)
     ax1.set_ylabel('V_th (V)', fontsize=11)
     ax1.set_title('R2 越大，V_th 越接近 V1', fontsize=12)
-    ax1.grid(True, alpha=0.3)
+    ax1.grid(True, which='both', alpha=0.3)
     ax1.set_ylim(0, V1 + 2)
 
     ax2.plot(r2s, rths, 's-', color='#dc2626', lw=2, ms=7)
@@ -180,11 +181,12 @@ def exp2_thevenin():
         ax2.annotate(f'{y:.3f}', (x, y), textcoords='offset points',
                      xytext=(0, 9), ha='center', fontsize=9)
     ax2.axhline(R1, color='gray', ls='--', lw=1.2)
-    ax2.text(1.2, R1 - 0.12, f'上限 = R1 = {R1:g} kΩ（R2→∞ 时）', fontsize=9, color='gray')
-    ax2.set_xlabel('R2 (kΩ)', fontsize=11)
+    ax2.text(0.13, R1 - 0.32, f'上限 = R1 = {R1:g} kΩ', fontsize=9, color='gray')
+    ax2.set_xscale('log')
+    ax2.set_xlabel('R2 (kΩ) —— 对数轴', fontsize=11)
     ax2.set_ylabel('R_th (kΩ)', fontsize=11)
     ax2.set_title('R2 越大，R_th 越接近 R1', fontsize=12)
-    ax2.grid(True, alpha=0.3)
+    ax2.grid(True, which='both', alpha=0.3)
     ax2.set_ylim(0, R1 + 0.5)
 
     plt.suptitle('实验二：改变 R2，看戴维南等效参数怎么变', fontsize=13.5, y=1.01)
