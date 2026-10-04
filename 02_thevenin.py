@@ -97,7 +97,7 @@ import schemdraw.elements as elm
 schemdraw.config(font='Microsoft YaHei', fontsize=13, lw=1.9)
 
 # --- 原电路（含源二端网络，标注端口）---
-with schemdraw.Drawing(file=os.path.join(IMG, '02a_circuit.png'), show=False) as d:
+with schemdraw.Drawing(file=os.path.join(IMG, '02a_circuit_auto.png'), show=False) as d:
     d.config(unit=2.5)
     # 电源
     d += elm.SourceV().at((0, -2.6)).up().to((0, 0)).label('$V_1$\n10 V', loc='left')

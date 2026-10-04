@@ -228,7 +228,7 @@ out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'images')
 os.makedirs(out_dir, exist_ok=True)
 
 # --- 图 0：原电路图 ---
-with schemdraw.Drawing(file=os.path.join(out_dir, '03a_circuit.png'), show=False) as d:
+with schemdraw.Drawing(file=os.path.join(out_dir, '03a_circuit_auto.png'), show=False) as d:
     d.config(unit=2.3)
     # 顶部 VDD 电源轨
     d += elm.Line().at((0, 0)).to((7.2, 0))
@@ -349,7 +349,7 @@ print("=" * 68)
 
 #  A. 直流通路：Cb1 开路，只留偏置网络 + MOSFET + Rd
 # ============================================================
-path_a = os.path.join(out_dir, '03a_dc_path.png')
+path_a = os.path.join(out_dir, '03a_dc_path_auto.png')
 with schemdraw.Drawing(file=path_a, show=False) as d:
     d.config(unit=2.6)
 
@@ -398,7 +398,7 @@ print(f"[图 A] {path_a}")
 # ============================================================
 #  B. 小信号等效模型
 # ============================================================
-path_b = os.path.join(out_dir, '03b_small_signal.png')
+path_b = os.path.join(out_dir, '03b_small_signal_auto.png')
 with schemdraw.Drawing(file=path_b, show=False) as d:
     d.config(unit=3.1)
 

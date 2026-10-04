@@ -1,0 +1,2 @@
+# 统一使用 LF 换行，避免 Windows / macOS 协作时换行符反复变动
+* text=auto eol=lf

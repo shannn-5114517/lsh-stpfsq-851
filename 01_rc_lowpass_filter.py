@@ -68,7 +68,7 @@ import schemdraw
 import schemdraw.elements as elm
 schemdraw.config(font='Microsoft YaHei', fontsize=13, lw=1.9)
 
-with schemdraw.Drawing(file=os.path.join(IMG, '01a_circuit.png'), show=False) as d:
+with schemdraw.Drawing(file=os.path.join(IMG, '01a_circuit_auto.png'), show=False) as d:
     d.config(unit=2.6)
     d += elm.Dot(open=True).at((0, 0)).label('$v_i$', loc='left', fontsize=13)
     d += (R1 := elm.Resistor().at((0, 0)).right().label(f'$R$\n{R_ohm/1000:g} kΩ', loc='top'))
