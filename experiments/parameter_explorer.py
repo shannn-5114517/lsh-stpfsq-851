@@ -206,7 +206,7 @@ def exp3_nmos():
 
     VDD = 5.0
     RG1, RG2 = 60.0, 40.0
-    K, VTH, LAM = 0.8e-3, 1.0, 0.02
+    K, VTH, LAM = 0.8e-3, 1.0, 0.1
     VG = VDD * RG2 / (RG1 + RG2)      # = 2 V
     VOV = VG - VTH                     # = 1 V
 
