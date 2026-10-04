@@ -51,7 +51,7 @@ def exp1_rc():
     print("  " + "-" * 72)
 
     C_FAR = 100e-9
-    R_LIST = [0.5, 1, 1.5, 2, 3, 5]
+    R_LIST = [0.1,0.5, 1, 5, 10, 50]
 
     rows = []
     curves = []
