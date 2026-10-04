@@ -24,3 +24,4 @@ assets/
 __pycache__/
 *.pyc
 .mplcache/
+运行实验.bat

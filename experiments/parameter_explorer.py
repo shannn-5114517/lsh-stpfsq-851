@@ -261,8 +261,13 @@ def exp3_nmos():
 
         if id_sim > 1e-9 and vds_sim > VOV:
             gm = gm_measure(vds_sim)
-            ro = 1 / (LAM * id_sim)
-            av = gm * (rd * ro) / (rd + ro)
+            # λ = 0 表示没有沟道长度调制，管子是「理想恒流源」，此时 ro → ∞
+            if LAM > 0:
+                ro = 1 / (LAM * id_sim)
+                av = gm * (rd * ro) / (rd + ro)
+            else:
+                ro = float('inf')
+                av = gm * rd
         else:
             gm, ro, av = 0.0, float('inf'), 0.0
 
