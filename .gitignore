@@ -25,3 +25,4 @@ __pycache__/
 *.pyc
 .mplcache/
 运行实验.bat
+push_helper.ps1
