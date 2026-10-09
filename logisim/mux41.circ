@@ -84,8 +84,9 @@
       <a name="appearance" val="classic"/>
       <a name="label" val="D3"/>
     </comp>
-    <comp lib="0" loc="(680,240)" name="Pin">
+    <comp lib="0" loc="(660,240)" name="Pin">
       <a name="appearance" val="classic"/>
+      <a name="facing" val="west"/>
       <a name="label" val="Y"/>
       <a name="type" val="output"/>
     </comp>

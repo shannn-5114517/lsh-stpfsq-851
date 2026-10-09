@@ -64,25 +64,29 @@
       <a name="appearance" val="classic"/>
       <a name="label" val="A0"/>
     </comp>
-    <comp lib="0" loc="(440,130)" name="Pin">
+    <comp lib="0" loc="(420,130)" name="Pin">
       <a name="appearance" val="classic"/>
-      <a name="type" val="output"/>
+      <a name="facing" val="west"/>
       <a name="label" val="Y2"/>
-    </comp>
-    <comp lib="0" loc="(440,210)" name="Pin">
-      <a name="appearance" val="classic"/>
       <a name="type" val="output"/>
+    </comp>
+    <comp lib="0" loc="(420,210)" name="Pin">
+      <a name="appearance" val="classic"/>
+      <a name="facing" val="west"/>
       <a name="label" val="Y1"/>
-    </comp>
-    <comp lib="0" loc="(440,270)" name="Pin">
-      <a name="appearance" val="classic"/>
       <a name="type" val="output"/>
+    </comp>
+    <comp lib="0" loc="(420,270)" name="Pin">
+      <a name="appearance" val="classic"/>
+      <a name="facing" val="west"/>
       <a name="label" val="Y3"/>
-    </comp>
-    <comp lib="0" loc="(440,60)" name="Pin">
-      <a name="appearance" val="classic"/>
       <a name="type" val="output"/>
+    </comp>
+    <comp lib="0" loc="(420,60)" name="Pin">
+      <a name="appearance" val="classic"/>
+      <a name="facing" val="west"/>
       <a name="label" val="Y0"/>
+      <a name="type" val="output"/>
     </comp>
     <comp lib="1" loc="(230,130)" name="NOT Gate"/>
     <comp lib="1" loc="(230,270)" name="NOT Gate"/>

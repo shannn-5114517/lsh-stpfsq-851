@@ -64,8 +64,9 @@
       <a name="appearance" val="classic"/>
       <a name="label" val="B"/>
     </comp>
-    <comp lib="0" loc="(320,200)" name="Pin">
+    <comp lib="0" loc="(300,200)" name="Pin">
       <a name="appearance" val="classic"/>
+      <a name="facing" val="west"/>
       <a name="type" val="output"/>
     </comp>
     <comp lib="1" loc="(270,200)" name="AND Gate"/>
