@@ -56,55 +56,6 @@
     <a name="circuit" val="main"/>
     <a name="circuitnamedboxfixedsize" val="true"/>
     <a name="simulationFrequency" val="1.0"/>
-    <comp lib="0" loc="(130,110)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="label" val="B"/>
-    </comp>
-    <comp lib="0" loc="(130,50)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="label" val="A"/>
-    </comp>
-    <comp lib="0" loc="(510,160)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="west"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp lib="0" loc="(510,240)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="west"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp lib="0" loc="(510,90)" name="Pin">
-      <a name="appearance" val="classic"/>
-      <a name="facing" val="west"/>
-      <a name="type" val="output"/>
-    </comp>
-    <comp lib="1" loc="(240,110)" name="NOT Gate"/>
-    <comp lib="1" loc="(240,50)" name="NOT Gate"/>
-    <comp lib="1" loc="(430,160)" name="AND Gate"/>
-    <comp lib="1" loc="(430,90)" name="AND Gate"/>
-    <comp lib="1" loc="(440,240)" name="XOR Gate"/>
-    <comp lib="1" loc="(490,240)" name="NOT Gate"/>
-    <wire from="(130,110)" to="(190,110)"/>
-    <wire from="(130,50)" to="(170,50)"/>
-    <wire from="(170,220)" to="(380,220)"/>
-    <wire from="(170,50)" to="(170,70)"/>
-    <wire from="(170,50)" to="(210,50)"/>
-    <wire from="(170,70)" to="(170,220)"/>
-    <wire from="(170,70)" to="(380,70)"/>
-    <wire from="(190,110)" to="(190,180)"/>
-    <wire from="(190,110)" to="(210,110)"/>
-    <wire from="(190,180)" to="(190,260)"/>
-    <wire from="(190,180)" to="(380,180)"/>
-    <wire from="(190,260)" to="(380,260)"/>
-    <wire from="(240,110)" to="(380,110)"/>
-    <wire from="(240,50)" to="(270,50)"/>
-    <wire from="(270,140)" to="(380,140)"/>
-    <wire from="(270,50)" to="(270,140)"/>
-    <wire from="(430,160)" to="(510,160)"/>
-    <wire from="(430,90)" to="(510,90)"/>
-    <wire from="(440,240)" to="(460,240)"/>
-    <wire from="(490,240)" to="(510,240)"/>
   </circuit>
   <circuit name="fulladder">
     <a name="appearance" val="logisim_evolution"/>
