@@ -26,3 +26,10 @@ __pycache__/
 .mplcache/
 运行实验.bat
 push_helper.ps1
+# ---- Verilog 仿真产物 ----
+*.vcd
+*.vvp
+*.out
+*.lxt
+*.lxt2
+*.fst
